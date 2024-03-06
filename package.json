@@ -18,14 +18,24 @@
     "lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ws": "pnpm dlx sherif@latest",
     "postinstall": "pnpm lint:ws",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "update-types-local": "supabase gen types typescript --local > packages/db/src/supabaseTypes.ts",
+    "update-types-remote": "supabase gen types typescript --project-id \"izrwqrxvegrajxtlvafn\" --schema public > packages/db/src/supabaseTypes.ts",
+    "prepare:local": "pnpm update-types-local && pnpm prisma db pull && pnpm prisma generate && pnpm prisma-case-format --file prisma/schema.prisma  && pnpm prisma generate",
+    "prepare:remote": "pnpm update-types-remote && pnpm prisma db pull && pnpm prisma generate && pnpm prisma-case-format --file prisma/schema.prisma  && pnpm prisma generate",
+    "db:reset": "supabase db reset",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:diff": "supabase db diff -f"
   },
   "devDependencies": {
     "@acme/prettier-config": "workspace:^0.1.0",
     "@turbo/gen": "^1.12.4",
     "prettier": "^3.2.5",
     "turbo": "^1.12.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "prisma": "^5.10.2",
+    "prisma-case-format": "^2.2.1"
   },
   "prettier": "@acme/prettier-config"
 }

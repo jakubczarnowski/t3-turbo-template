@@ -1,62 +1,54 @@
-import type { Metadata, Viewport } from "next";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { TailwindIndicator } from "~/components/TailwindIndicator";
+import { Providers } from "~/providers";
 
-import { cn } from "@acme/ui";
-import { ThemeProvider, ThemeToggle } from "@acme/ui/theme";
-import { Toaster } from "@acme/ui/toast";
+import "~/styles/globals.css";
 
-import { env } from "~/env";
+import { Roboto } from "next/font/google";
+import { headers } from "next/headers";
+
+import { Toaster } from "~/components/ui/toaster";
+import { AuthProvider } from "~/providers/AuthProvider/AuthProvider";
 import { TRPCReactProvider } from "~/trpc/react";
+import { getServerUser } from "~/utils/auth";
+import { cn } from "~/utils/cn";
 
-import "~/app/globals.css";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(
-    env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
-      : "http://localhost:3000",
-  ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
-  openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
-    url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
-  },
+export const metadata = {
+  title: "Questions",
+  description: "QUESIUHGEWUI",
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-};
+const font = Roboto({
+  weight: ["100", "300", "400", "500", "700", "900"],
+  subsets: ["latin"],
+});
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+async function RootLayout({ children }: { children: React.ReactNode }) {
+  const user = await getServerUser();
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans text-foreground antialiased",
-          GeistSans.variable,
-          GeistMono.variable,
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
-          <div className="absolute bottom-4 right-4">
-            <ThemeToggle />
-          </div>
-          <Toaster />
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      <html lang="en">
+        <head />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            font.className,
+          )}
+        >
+          <TRPCReactProvider headers={headers()}>
+            <AuthProvider {...user}>
+              <Providers>
+                {children}
+                <Toaster />
+              </Providers>
+            </AuthProvider>
+          </TRPCReactProvider>
+          <TailwindIndicator />
+        </body>
+      </html>
+    </>
   );
 }
+
+export default RootLayout;

@@ -16,16 +16,11 @@
     "typecheck": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --"
   },
-  "dependencies": {
-    "@planetscale/database": "^1.16.0",
-    "drizzle-orm": "^0.29.4"
-  },
   "devDependencies": {
     "@acme/eslint-config": "workspace:^0.2.0",
     "@acme/prettier-config": "workspace:^0.1.0",
     "@acme/tsconfig": "workspace:^0.1.0",
     "dotenv-cli": "^7.3.0",
-    "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
@@ -36,5 +31,9 @@
       "@acme/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@acme/prettier-config",
+  "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "@supabase/supabase-js": "^2.39.7"
+  }
 }

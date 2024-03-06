@@ -2,6 +2,12 @@ import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
 import type { AppRouter } from "./root";
 import { appRouter } from "./root";
+import {
+  clientSupabase,
+  getServiceSupabase,
+  getUserAsAdmin,
+  supabase,
+} from "./supabase/supabaseClient";
 import { createCallerFactory, createTRPCContext } from "./trpc";
 
 /**
@@ -29,5 +35,13 @@ type RouterInputs = inferRouterInputs<AppRouter>;
  **/
 type RouterOutputs = inferRouterOutputs<AppRouter>;
 
-export { createTRPCContext, appRouter, createCaller };
+export {
+  createTRPCContext,
+  appRouter,
+  createCaller,
+  clientSupabase,
+  getServiceSupabase,
+  getUserAsAdmin,
+  supabase,
+};
 export type { AppRouter, RouterInputs, RouterOutputs };

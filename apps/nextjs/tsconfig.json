@@ -8,6 +8,11 @@
     "plugins": [{ "name": "next" }],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
-  "include": [".", ".next/types/**/*.ts"],
+  "include": [
+    ".",
+    ".next/types/**/*.ts",
+    "../../packages/api/src/api",
+    "../../packages/api/src/supabase"
+  ],
   "exclude": ["node_modules"]
 }
